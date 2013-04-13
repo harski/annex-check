@@ -1,0 +1,4 @@
+Annex-check is a Perl script for searching such files that there exists only
+one known copy of, and that copy is "here". It is useful for checking files
+that would potentially be lost if the current remote was taken out of the
+annex.
