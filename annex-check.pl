@@ -1,5 +1,8 @@
 #!/usr/bin/env perl
 
+# Copyright (C) 2013 Tuomo Hartikainen <hartitu@gmail.com>
+# Licensed under 2-clause BSD license, see LICENSE for more information.
+
 use warnings;
 use strict;
 
@@ -30,7 +33,8 @@ sub handle_dir ($) {
 
 sub handle_file ($) {
 	my ($file) = @_;
-	print STDERR "Warning: File $file is not added to git-annex index or is checked out\n";
+	print STDERR "Warning: File $file is not added to git-annex"
+		    ."index or is checked out\n";
 }
 
 sub handle_symlink ($) {
@@ -48,7 +52,8 @@ sub handle_symlink ($) {
 		print "File $file has only one copy!\n";
 
 	} elsif ($copies==-1) {
-		warn "Could not determine how many copies there if of file \"$file\" (most likely none)";
+		warn "Could not determine how many copies there if of"
+		    ."file \"$file\" (most likely none)";
 	} else {
 		# File has multiple copies, all is well
 	}
