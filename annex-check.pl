@@ -90,7 +90,7 @@ if ($#ARGV >=0) {
 if (-d $root) {
 	handle_dir($root);
 } else {
-	print STDERR "Error: Root is not a regular direectory!\n";
+	print STDERR "Error: Root is not a regular directory!\n";
 	exit 2;
 }
 
