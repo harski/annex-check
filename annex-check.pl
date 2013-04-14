@@ -72,12 +72,18 @@ sub handle_path ($) {
 	}
 }
 
+sub print_usage () {
+	print "Usage:\n";
+	print "annex-check [FOLDER | FILE | .git]\n";
+}
+
 my $root;
 
 if ($#ARGV >=0) {
 	$root = $ARGV[0];
 } else {
-	print STDERR "Error: Root dir unknown\n";
+	print STDERR "Error: Invalid or missing path.\n";
+	print_usage();
 	exit 1;
 }
 
