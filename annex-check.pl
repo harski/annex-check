@@ -6,6 +6,11 @@
 use warnings;
 use strict;
 
+my $VERSION = "0.1";
+my %settings = (
+	recursive => 1
+);
+
 sub get_copies ($) {
 	my ($str) = @_;
 	if ($str =~ /^whereis .* \((\d+) cop.+\).*/) {
