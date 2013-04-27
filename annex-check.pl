@@ -95,6 +95,17 @@ sub handle_path ($) {
 	}
 }
 
+# Checks if the directory is a valid git-annex dir
+sub is_annex_dir {
+	my $dir = shift;
+	if ($dir) {
+		chdir($dir);
+	}
+
+	`git-annex whereis blaa > /dev/null 2>&1`;
+	return not $?;
+}
+
 sub print_usage () {
 	print "Usage:\n";
 	print "annex-check [FOLDER | FILE | .git]\n";
