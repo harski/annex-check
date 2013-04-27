@@ -54,6 +54,13 @@ sub read_dir ($) {
 	return \@res_files;
 }
 
+sub get_annex_output ($) {
+	my $file = shift;
+	my @output = `git-annex whereis $file`;
+
+	return @output;
+}
+
 sub handle_file ($) {
 	my ($file) = @_;
 	print STDERR "Warning: File $file is not added to git-annex"
