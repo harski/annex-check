@@ -36,6 +36,24 @@ sub handle_dir ($) {
 	}
 }
 
+# Get directory contents, without "." and ".."
+sub read_dir ($) {
+	my ($dir) = @_;
+	opendir(DIR, $dir) or die "Cannot open directory $!";
+	my @files = readdir(DIR);
+	closedir(DIR);
+
+	my @res_files;
+	foreach my $file (@files) {
+		if ($file =~ /^\..*$/ ) {
+			next;
+		}
+		push @res_files, "$dir/$file";
+	}
+
+	return \@res_files;
+}
+
 sub handle_file ($) {
 	my ($file) = @_;
 	print STDERR "Warning: File $file is not added to git-annex"
