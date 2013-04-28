@@ -73,7 +73,7 @@ sub read_dir ($) {
 		push @res_files, "$dir/$file";
 	}
 
-	return \@res_files;
+	return @res_files;
 }
 
 sub get_annex_output ($) {
