@@ -127,20 +127,35 @@ sub print_usage () {
 	print "annex-check [DIR | FILE]\n";
 }
 
-my $root;
 
+my $path;
+
+# Check that path is supplied
 if ($#ARGV >=0) {
-	$root = $ARGV[0];
+	$path = $ARGV[0];
 } else {
 	print STDERR "Error: Invalid or missing path.\n";
 	print_usage();
 	exit 1;
 }
 
-if (-d $root) {
-	handle_dir($root);
-} else {
-	print STDERR "Error: Root is not a regular directory!\n";
+# Do the initial setup of the hash
+if (-d $path) {
+	handle_dir($path, \%files);
+} elsif (-l $path) {
+	push @{${files}{"symlinks"}}, $path;
+} elsif (-f $path) {
+	print STDERR "Error: target is not annexed or is checked out. Quitting...\n";
 	exit 2;
+} else {
+	print STDERR "Error: target is of unknown or unsupported type. Quitting...";
+	exit 3;
+}
+
+# If in recursive mode, process the directories
+if ($settings{"recursive"}) {
+	while (my $dir = shift @{$files{"dirs"}}) {
+		handle_dir($dir, \%files);
+	}
 }
 
