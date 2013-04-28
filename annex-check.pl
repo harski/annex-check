@@ -5,18 +5,48 @@
 
 use warnings;
 use strict;
+use Getopt::Long;
 
 my $VERSION = "0.1";
+
+my %actions = (
+	help	=> 0,
+	version	=> 0
+);
+
 my %settings = (
-	recursive => 1
+	recursive	=> 0,
+	verbose		=> 0
 );
 
 my %files = (
-	dirs => [],
-	files => [],
-	symlinks => []
+	dirs		=> [],
+	files		=> [],
+	symlinks	=> []
 );
 
+GetOptions (
+	'h'		=> \$actions{help},
+	'help'		=> \$actions{help},
+	'r'		=> \$settings{recursive},
+	'recursive'	=> \$settings{recursive},
+	'v'		=> \$settings{verbose},
+	'verbose'	=> \$settings{verbose},
+	'V'		=> \$actions{version},
+	'version'	=> \$actions{version},
+	'usage'		=> \$actions{help}
+);
+
+
+sub action_given {
+	my (%actions) = @_;
+	foreach my $key (keys %actions) {
+		if ($actions{$key}) {
+			return 1;
+		}
+	}
+	return 0;
+}
 
 sub get_copy_remotes (@) {
 	my (@arr) = @_;
@@ -137,6 +167,18 @@ sub print_usage () {
 }
 
 
+# Check if custom action issued
+if (action_given(%actions)) {
+	if ($actions{help}) {
+		print_usage();
+	} elsif ($actions{version}) {
+		print "annex-check version $VERSION\n";
+		print "(c) 2013 Tuomo Hartikainen <hartitu\@gmail.com>\n";
+		print "Licensed under 2-clause BSD license\n";
+	}
+	exit 0;
+}
+
 my $path;
 
 # Check that path is supplied
@@ -168,7 +210,6 @@ if ($settings{"recursive"}) {
 	}
 }
 
-
 foreach my $link (@{${files}{symlinks}}) {
 	my @output = get_annex_output($link);
 	my @remotes = get_copy_remotes(@output);
@@ -177,3 +218,4 @@ foreach my $link (@{${files}{symlinks}}) {
 		print "File \"$link\" is fragile!\n";
 	}
 }
+
