@@ -168,3 +168,12 @@ if ($settings{"recursive"}) {
 	}
 }
 
+
+foreach my $link (@{${files}{symlinks}}) {
+	my @output = get_annex_output($link);
+	my @remotes = get_copy_remotes(@output);
+
+	if (scalar(@remotes) == 1 && is_this_remote($remotes[0])) {
+		print "File \"$link\" is fragile!\n";
+	}
+}
