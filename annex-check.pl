@@ -122,6 +122,15 @@ sub is_annex_dir {
 	return not $?;
 }
 
+sub is_this_remote {
+	my $remote = shift;
+	if ($remote =~ /^here \(.*\)$/) {
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
 sub print_usage () {
 	print "Usage:\n";
 	print "annex-check [DIR | FILE]\n";
