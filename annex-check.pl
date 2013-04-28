@@ -11,6 +11,13 @@ my %settings = (
 	recursive => 1
 );
 
+my %files = (
+	dirs => [],
+	files => [],
+	symlinks => []
+);
+
+
 sub get_copies ($) {
 	my ($str) = @_;
 	if ($str =~ /^whereis .* \((\d+) cop.+\).*/) {
