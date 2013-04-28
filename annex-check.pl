@@ -18,6 +18,20 @@ my %files = (
 );
 
 
+sub get_copy_remotes (@) {
+	my (@arr) = @_;
+	my @ret;
+
+	shift @arr;
+	while (my $str = shift @arr) {
+		last if ($str =~ m/^ok$/);
+		if ($str =~ m/.* -- (.+)$/) {
+			push @ret, $1;
+		}
+	}
+	return @ret;
+}
+
 sub get_copies ($) {
 	my ($str) = @_;
 	if ($str =~ /^whereis .* \((\d+) cop.+\).*/) {
