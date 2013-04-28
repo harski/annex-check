@@ -28,18 +28,19 @@ sub get_copies ($) {
 	return -1;
 }
 
-sub handle_dir ($) {
-	my ($dir) = @_;
-	opendir(DIR, $dir) or die "Cannot open directory $!";
-	my @files = readdir(DIR);
-	closedir(DIR);
+sub handle_dir {
+	my $dir = shift;
+	my (%files) = %{shift()};
 
-	foreach my $file (@files) {
-		if ($file =~ /^\..*$/ ) {
-			next;
+	my @content = read_dir($dir);
+	foreach (@content) {
+		if (-d) {
+			push @{$files{"dirs"}}, "$_";
+		} elsif (-l) {
+			push @{$files{"symlinks"}}, "$_";
+		} elsif (-f) {
+			push @{$files{"files"}}, "$_";
 		}
-		my $fullpath = "$dir/$file";
-		handle_path($fullpath);
 	}
 }
 
