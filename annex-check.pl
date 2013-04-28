@@ -111,19 +111,6 @@ sub handle_symlink ($) {
 	}
 }
 
-sub handle_path ($) {
-	my ($path) = @_;
-	if (-d $path) {
-		handle_dir($path);
-	} elsif (-f $path) {
-		handle_file($path);
-	} elsif (-l $path) {
-		handle_symlink($path);
-	} else {
-		print STDERR "unknown filetype for file $path\n";
-	}
-}
-
 # Checks if the directory is a valid git-annex dir
 sub is_annex_dir {
 	my $dir = shift;
