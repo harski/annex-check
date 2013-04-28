@@ -124,7 +124,7 @@ sub is_annex_dir {
 
 sub print_usage () {
 	print "Usage:\n";
-	print "annex-check [FOLDER | FILE | .git]\n";
+	print "annex-check [DIR | FILE]\n";
 }
 
 my $root;
