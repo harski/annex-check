@@ -180,6 +180,10 @@ my $path;
 # Check that path is supplied
 if ($#ARGV >=0) {
 	$path = $ARGV[0];
+	if (not is_annex_path($path)) {
+		print STDERR "Target '$path' is not a valid git-annex target.\n";
+		exit 4
+	}
 } else {
 	print STDERR "Error: Invalid or missing path.\n";
 	print_usage();
