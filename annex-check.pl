@@ -141,14 +141,10 @@ sub handle_symlink ($) {
 	}
 }
 
-# Checks if the directory is a valid git-annex dir
-sub is_annex_dir {
-	my $dir = shift;
-	if ($dir) {
-		chdir($dir);
-	}
-
-	`git-annex whereis blaa > /dev/null 2>&1`;
+# Checks if the path is a valid git-annex path
+sub is_annex_path {
+	my $path = shift;
+	`git-annex whereis $path > /dev/null 2>&1`;
 	return not $?;
 }
 
