@@ -1,4 +1,41 @@
-Annex-check is a Perl script for searching such files that there exists only
-one known copy of, and that copy is "here". It is useful for checking files
-that would potentially be lost if the current remote was taken out of the
-annex.
+Introduction
+============
+
+Annex-check is a Perl script for checking for files that would be lost if the
+current remote was taken out of the annex.
+
+
+Installation
+============
+
+Edit the Makefile install path variables, and do
+	% make install
+
+
+Usage
+=====
+
+annex-check [OPTION] TARGET
+
+Options:
+  -h --help --usage
+	Print help
+  -r --recursive
+	If target is a directory, search files from directories recursively
+  -v --verbose
+	Be verbose
+  -V --version
+	Print annex-check version
+
+
+Contact
+=======
+
+Tuomo Hartikainen <hartitu@gmail.com>.
+
+
+License
+=======
+
+The script is licensed under 2-clause BSD license. See LICENSE for details.
+
