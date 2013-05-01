@@ -113,34 +113,6 @@ sub get_annex_output ($) {
 	return @output;
 }
 
-sub handle_file ($) {
-	my ($file) = @_;
-	print STDERR "Warning: File $file is not added to git-annex"
-		    ."index or is checked out\n";
-}
-
-sub handle_symlink ($) {
-	my ($file) = @_;
-	my @output = `git-annex whereis $file`;
-
-	if (@output < 1) {
-		print STDERR "file \"$file\" is not in git-annex index!\n";
-		return;
-	}
-	my $copies = get_copies($output[0]);
-
-	if ($copies==1) {
-		# Only one copy, check if it is here
-		print "File $file has only one copy!\n";
-
-	} elsif ($copies==-1) {
-		warn "Could not determine how many copies there if of"
-		    ."file \"$file\" (most likely none)";
-	} else {
-		# File has multiple copies, all is well
-	}
-}
-
 # Checks if the path is a valid git-annex path
 sub is_annex_path {
 	my $path = shift;
