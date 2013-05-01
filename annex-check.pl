@@ -110,7 +110,16 @@ sub is_this_remote {
 
 sub print_usage () {
 	print "Usage:\n";
-	print "annex-check [DIR | FILE]\n";
+	print "annex-check [OPTION] TARGET\n\n";
+	print "Options:\n";
+	print "  -h --help --usage\n";
+	print "\tPrint help\n";
+	print "  -r --recursive\n";
+	print "\tIf target is a directory, search files from directories recursively\n";
+	print "  -v --verbose\n";
+	print "\tBe verbose\n";
+	print "  -V --version\n";
+	print "\tPrint annex-check version\n";
 }
 
 # Get directory contents, without "." and ".."
