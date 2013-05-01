@@ -47,6 +47,23 @@ sub action_given {
 	return 0;
 }
 
+sub get_annex_output ($) {
+	my $file = shift;
+	my @output = `git-annex whereis $file 2>&1`;
+
+	return @output;
+}
+
+sub get_copies ($) {
+	my ($str) = @_;
+	if ($str =~ /^whereis .* \((\d+) cop.+\).*/) {
+		if ($1) {
+			return $1;
+		}
+	}
+	return -1;
+}
+
 sub get_copy_remotes (@) {
 	my (@arr) = @_;
 	my @ret;
@@ -61,16 +78,6 @@ sub get_copy_remotes (@) {
 	return @ret;
 }
 
-sub get_copies ($) {
-	my ($str) = @_;
-	if ($str =~ /^whereis .* \((\d+) cop.+\).*/) {
-		if ($1) {
-			return $1;
-		}
-	}
-	return -1;
-}
-
 sub handle_dir {
 	my $dir = shift;
 	my (%files) = %{shift()};
@@ -83,31 +90,6 @@ sub handle_dir {
 			push @{$files{"files"}}, "$_";
 		}
 	}
-}
-
-# Get directory contents, without "." and ".."
-sub read_dir ($) {
-	my ($dir) = @_;
-	opendir(DIR, $dir) or die "Cannot open directory $!";
-	my @files = readdir(DIR);
-	closedir(DIR);
-
-	my @res_files;
-	foreach my $file (@files) {
-		if ($file =~ /^\..*$/ ) {
-			next;
-		}
-		push @res_files, "$dir/$file";
-	}
-
-	return @res_files;
-}
-
-sub get_annex_output ($) {
-	my $file = shift;
-	my @output = `git-annex whereis $file 2>&1`;
-
-	return @output;
 }
 
 # Checks if the path is a valid git-annex path
@@ -129,6 +111,24 @@ sub is_this_remote {
 sub print_usage () {
 	print "Usage:\n";
 	print "annex-check [DIR | FILE]\n";
+}
+
+# Get directory contents, without "." and ".."
+sub read_dir ($) {
+	my ($dir) = @_;
+	opendir(DIR, $dir) or die "Cannot open directory $!";
+	my @files = readdir(DIR);
+	closedir(DIR);
+
+	my @res_files;
+	foreach my $file (@files) {
+		if ($file =~ /^\..*$/ ) {
+			next;
+		}
+		push @res_files, "$dir/$file";
+	}
+
+	return @res_files;
 }
 
 
