@@ -108,7 +108,7 @@ sub read_dir ($) {
 
 sub get_annex_output ($) {
 	my $file = shift;
-	my @output = `git-annex whereis $file`;
+	my @output = `git-annex whereis $file 2>&1`;
 
 	return @output;
 }
