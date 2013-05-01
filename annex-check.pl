@@ -21,8 +21,7 @@ my %settings = (
 
 my %files = (
 	dirs		=> [],
-	files		=> [],
-	symlinks	=> []
+	files		=> []
 );
 
 GetOptions (
@@ -80,9 +79,7 @@ sub handle_dir {
 	foreach (@content) {
 		if (-d) {
 			push @{$files{"dirs"}}, "$_";
-		} elsif (-l) {
-			push @{$files{"symlinks"}}, "$_";
-		} elsif (-f) {
+		} elsif (-l || -f) {
 			push @{$files{"files"}}, "$_";
 		}
 	}
@@ -165,13 +162,13 @@ if ($#ARGV >=0) {
 # Do the initial setup of the hash
 if (-d $path) {
 	handle_dir($path, \%files);
-} elsif (-l $path) {
-	push @{${files}{"symlinks"}}, $path;
-} elsif (-f $path) {
-	print STDERR "Error: target is not annexed or is checked out. Quitting...\n";
-	exit 2;
+} elsif (-l $path || -f $path) {
+	push @{${files}{"files"}}, $path;
+} elsif (not -e $path) {
+	print STDERR "Target '$path' does not exist! Quitting...\n";
+	exit 2
 } else {
-	print STDERR "Error: target is of unknown or unsupported type. Quitting...";
+	print STDERR "Error: target is of unknown or unsupported type. Quitting...\n";
 	exit 3;
 }
 
@@ -182,12 +179,17 @@ if ($settings{"recursive"}) {
 	}
 }
 
-foreach my $link (@{${files}{symlinks}}) {
+# Loop through the files
+foreach my $link (@{${files}{files}}) {
 	my @output = get_annex_output($link);
-	my @remotes = get_copy_remotes(@output);
+	if (scalar(@output) > 0) {
+		my @remotes = get_copy_remotes(@output);
 
-	if (scalar(@remotes) == 1 && is_this_remote($remotes[0])) {
-		print "File \"$link\" is fragile!\n";
+		if (scalar(@remotes) == 1 && is_this_remote($remotes[0])) {
+			print "File \"$link\" is fragile!\n";
+		}
+	} else {
+		print STDERR "File '$link' is not annexed.\n";
 	}
 }
 
