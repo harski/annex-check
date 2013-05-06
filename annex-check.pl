@@ -16,7 +16,8 @@ my %actions = (
 
 my %settings = (
 	recursive	=> 0,
-	verbose		=> 0
+	verbose		=> 0,
+	warn_unannexed	=> 1
 );
 
 my %files = (
@@ -29,6 +30,7 @@ GetOptions (
 	'help'		=> \$actions{help},
 	'r'		=> \$settings{recursive},
 	'recursive'	=> \$settings{recursive},
+	'unannexed!'	=> \$settings{warn_unannexed},
 	'v'		=> \$settings{verbose},
 	'verbose'	=> \$settings{verbose},
 	'V'		=> \$actions{version},
@@ -116,6 +118,9 @@ sub print_usage () {
 	print "\tPrint help\n";
 	print "  -r --recursive\n";
 	print "\tIf target is a directory, search files from directories recursively\n";
+	print "  --unannexed\n";
+	print "  --nounannexed\n";
+	print "\tWarn (or not) about unannexed files. Warning is default behaviour\n";
 	print "  -v --verbose\n";
 	print "\tBe verbose\n";
 	print "  -V --version\n";
@@ -197,8 +202,11 @@ foreach my $link (@{${files}{files}}) {
 		if (scalar(@remotes) == 1 && is_this_remote($remotes[0])) {
 			print "File \"$link\" is fragile!\n";
 		}
-	} else {
+	} elsif ($settings{"warn_unannexed"}) {
 		print STDERR "File '$link' is not annexed.\n";
+	} else {
+		print STDERR "Something \"funky\" happened with file $link ";
+		print STDERR "You should report this to the author.\n";
 	}
 }
 
