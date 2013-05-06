@@ -7,7 +7,7 @@ use warnings;
 use strict;
 use Getopt::Long qw(:config no_ignore_case bundling);
 
-my $VERSION = "0.1";
+my $VERSION = "0.2";
 
 my %actions = (
 	help	=> 0,
