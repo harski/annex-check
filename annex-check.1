@@ -1,0 +1,46 @@
+.TH annex-check 1 "5 May 2013" "Version 0.2"
+
+.SH NAME
+annex-check
+
+.SH DESCRIPTION
+Annex-check is a Perl script for checking for files that would be lost if the
+current remote was taken out of the annex.
+
+.SH SYNOPSIS
+.B git-annex
+[OPTIONS] TARGET
+
+.SH OPTIONS
+.SS Actions
+.TP
+.BR -h ", " --help ", " --usage
+Print help.
+.TP
+.BR -V ", " --version
+Print program version.
+.SS Options
+.TP
+.BR -r ", " --recursive
+Search for files recurively, if target is a directory. Default: false.
+.TP
+.BR -v ", " --verbose
+Be verbose. Default: false.
+.TP
+.BR --nounannexed
+Don't warn about unannexed files. Default: false.
+
+.SH AUTHOR
+Tuomo Hartikainen <hartitu@gmail.com>
+
+.SH COPYRIGHT
+Copyright (C) 2013 Tuomo Hartikainen <hartitu@gmail.com>. Licensed under
+2-clause BSD license.
+
+.SH BUGS
+Send all bug reports to Tuomo Hartikainen <hartitu@gmail.com>.
+
+.SH "SEE ALSO"
+.BR git (1),
+.BR git-annex (1)
+
