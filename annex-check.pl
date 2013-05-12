@@ -66,17 +66,18 @@ sub get_copies ($) {
 	return -1;
 }
 
-sub get_copy_remotes (@) {
-	my (@arr) = @_;
+sub get_copy_remotes {
+	my ($arr_ref) = @_;
 	my @ret;
 
-	shift @arr;
-	while (my $str = shift @arr) {
+	shift @{$arr_ref};
+	while (my $str = shift @{$arr_ref}) {
 		last if ($str =~ m/^ok$/);
 		if ($str =~ m/.* -- (.+)$/) {
 			push @ret, $1;
 		}
 	}
+
 	return @ret;
 }
 
@@ -197,7 +198,7 @@ if ($settings{"recursive"}) {
 foreach my $link (@{${files}{files}}) {
 	my @output = get_annex_output($link);
 	if (scalar(@output) > 0) {
-		my @remotes = get_copy_remotes(@output);
+		my @remotes = get_copy_remotes(\@output);
 
 		if (scalar(@remotes) == 1 && is_this_remote($remotes[0])) {
 			print "File \"$link\" is fragile!\n";
