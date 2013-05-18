@@ -176,6 +176,9 @@ if ($#ARGV >=0) {
 
 # Do the initial setup of the hash
 if (-d $path) {
+	if ($path =~ m!/$!) {
+		chop $path;
+	}
 	handle_dir($path, \%files);
 } elsif (-l $path || -f $path) {
 	push @{${files}{"files"}}, $path;
